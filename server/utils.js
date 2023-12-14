@@ -3,7 +3,7 @@ import { discountCodes } from './data.js';
 export function calculateTotalAmount(cartItems) {
   let total = 0;
   cartItems.forEach((item) => {
-    total += item.price * item.quantity;
+    total += item.price;
   });
 
   return total;
