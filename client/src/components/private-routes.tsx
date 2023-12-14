@@ -1,5 +1,8 @@
+import { Navigate, Outlet } from "react-router-dom";
+import { hasJWT } from "../utlis";
+
 const PrivateRoute = () => {
-  return <div>PrivateRoute</div>;
+  return hasJWT() ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
