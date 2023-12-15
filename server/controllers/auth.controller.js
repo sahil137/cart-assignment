@@ -1,5 +1,6 @@
 import { SECRET, users } from '../data.js';
-import * as jwt from 'jsonwebtoken';
+
+import jwt from 'jsonwebtoken';
 
 export const login = (req, res) => {
   const { username, password } = req.body;
@@ -17,13 +18,16 @@ export const login = (req, res) => {
     return res.status(400).json({ message: 'Invalid username or password' });
   }
 
-  const token = jwt.sign(
-    {
-      id: user.id,
-      username: user.username,
-    },
-    SECRET,
-    { expiresIn: '2 hours' }
-  );
-  res.status(200).json({ accessToken: token, message: 'Login successfull' });
+  const payload = {
+    id: user.id,
+    username: user.username,
+    role: user.role,
+  };
+
+  const token = jwt.sign(payload, SECRET, { expiresIn: '2h' });
+  res.status(200).json({
+    accessToken: token,
+    message: 'Logged in successfully',
+    role: user.role,
+  });
 };
