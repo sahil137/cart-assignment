@@ -7,13 +7,22 @@ import {
 
 //* Add Items to cart
 export const addItemsToCart = (req, res) => {
-  const { item } = req.body;
-  cartItems.push(item);
+  for (let i = 0; i < cartItems.length; i++) {
+    if (req.body.name === cartItems[i].name) {
+      return res.json(400).message('Item Already Added');
+    }
+  }
+  cartItems.push(req.body);
   res.status(200).json({
     success: true,
     items: cartItems,
     message: 'Items added to cart successfully',
   });
+};
+
+//* get cart
+export const getCart = (req, res) => {
+  return res.status(200).json({ cart: cartItems });
 };
 
 //* Checkout the current order with discount coupon check
@@ -72,14 +81,20 @@ export const checkOut = (req, res) => {
 
 //* Return info related to orders
 export const getStats = (req, res) => {
+  const totalAmount = calculateTotalAmount(cartItems);
   return res.status(200).json({
     itemCount: cartItems.length,
     orderCount,
-    totalAmount: calculateTotalAmount(cartItems),
+    totalAmount,
     discountCodes,
     totalDiscountAmount: totalAmount * 0.1,
   });
 };
 
 //* Create Discount code
-export const createDiscountCode = () => {};
+export const createDiscountCode = (req, res) => {
+  const discount = generateDiscountCode();
+  return res
+    .status(200)
+    .json({ message: 'Discount Code Created Successfully', code: discount });
+};

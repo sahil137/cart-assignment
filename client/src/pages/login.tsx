@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { setAuthToken } from "../utlis";
 import { useNavigate } from "react-router-dom";
+import { login } from "../axios";
 
 const Login = () => {
   const [username, setUsername] = useState<string>("");
@@ -15,8 +14,8 @@ const Login = () => {
         toast.error("Invalid username or password");
         return;
       }
-      //* Make API call to login and get access token
-      const res = await axios.post("http://localhost:8000/api/auth/login", {
+      //* Make API call to login using axios helper function and get access token
+      const res = await login({
         username,
         password,
       });
@@ -25,7 +24,6 @@ const Login = () => {
       //* Set JWT token in localStorage along with the role of user
       localStorage.setItem("token", res.data.accessToken);
       localStorage.setItem("role", res.data.role);
-      setAuthToken(res.data.accessToken);
       navigate("/");
     } catch (error: any) {
       console.log(error);

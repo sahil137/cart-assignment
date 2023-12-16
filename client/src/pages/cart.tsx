@@ -1,10 +1,14 @@
 import { useState } from "react";
-import CartItems from "./cart-item";
+import CartItems from "../components/cart-item";
 
-const Cart = ({ cartItems, total }: any) => {
+const Cart = ({
+  cartItems,
+  total,
+  handleCheckout,
+  discountCode,
+  setDiscountCode,
+}: any) => {
   const [coupon, setCoupon] = useState<string>("");
-
-  const handleCheckout = () => {};
 
   return (
     <>
@@ -45,6 +49,8 @@ const Cart = ({ cartItems, total }: any) => {
                 </div>
               </div>
               <input
+                value={discountCode}
+                onChange={(e) => setDiscountCode(e.target.value)}
                 type="Text"
                 className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Coupon Code"

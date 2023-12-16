@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import API from "../axios";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -14,12 +16,20 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.setItem("token", "");
-    localStorage.setItem("role", "");
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
     navigate("/login");
   };
 
-  function handleCreateDiscount() {}
+  async function handleCreateDiscount() {
+    try {
+      const response = await API.get("api/admin/create-discount-code");
+      toast.info(`Dicount Coupon Created: ${response?.data?.code}`);
+    } catch (error) {
+      console.log(error);
+      toast.error("Error in creating discount code");
+    }
+  }
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -42,7 +52,7 @@ const Navbar = () => {
                   type="button"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  Discount Coupon List
+                  Cart Info
                 </button>
               </a>
             </>

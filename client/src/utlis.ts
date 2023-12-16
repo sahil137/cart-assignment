@@ -6,9 +6,11 @@ export function hasJWT() {
   return flag;
 }
 
-export function setAuthToken(token: string) {
+export function setAuthToken() {
+  // Ideally we should use interceptors but keeping it simple for now
+  const token = localStorage.getItem("token");
   if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axios.defaults.headers.common["Authorization"] = `${token}`;
   } else {
     delete axios.defaults.headers.common["Authorization"];
   }
