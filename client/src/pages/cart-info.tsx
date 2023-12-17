@@ -23,6 +23,9 @@ const CartInfo = () => {
         ))}
       </div>
       <div className="text-left text-xl font-bold my-5">
+        Order Count: {cartData?.orderCount}
+      </div>
+      <div className="text-left text-xl font-bold my-5">
         Cart Item Count: {cartData?.itemCount}
       </div>
       <div className="text-left text-xl font-bold my-5">

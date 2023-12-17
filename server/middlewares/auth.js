@@ -15,7 +15,7 @@ export const isAdmin = (req, res, next) => {
     const token = req.headers['authorization'];
     const decodedData = jwt.verify(token, SECRET);
     if (decodedData?.role !== 'admin') {
-      res
+      return res
         .status(200)
         .json({ message: 'You dont have access to this resource' });
     }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CartItems from "../components/cart-item";
 
 const Cart = ({
@@ -8,8 +7,6 @@ const Cart = ({
   discountCode,
   setDiscountCode,
 }: any) => {
-  const [coupon, setCoupon] = useState<string>("");
-
   return (
     <>
       {cartItems.length === 0 ? (
@@ -23,6 +20,7 @@ const Cart = ({
             <div className="rounded-lg md:w-2/3">
               {cartItems.map((item: any) => (
                 <CartItems
+                  key={item.name}
                   price={item.price}
                   category={item.category}
                   name={item.name}

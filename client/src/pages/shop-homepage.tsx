@@ -4,7 +4,7 @@ import Cart from "./cart";
 import Navbar from "../components/header";
 import ShopItem from "../components/shop-item";
 import { toast } from "react-toastify";
-import API, { addItemToCart, checkout, getCart } from "../axios";
+import { addItemToCart, checkout, getCart } from "../axios";
 
 function HomePage() {
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -13,7 +13,6 @@ function HomePage() {
 
   async function getCartItems() {
     const response = await getCart();
-    console.log(response);
     setCartItems(response?.data?.cart);
     let flag = false;
     cartItems.forEach((item) => {
@@ -47,7 +46,6 @@ function HomePage() {
       name,
       price,
     });
-    console.log(response);
     let flag = false;
     if (flag) return;
     let total = price;
@@ -56,15 +54,19 @@ function HomePage() {
     });
     setCartTotal(total);
     getCartItems();
+    toast.info(response?.data?.message);
   }
 
   const handleCheckout = async () => {
     try {
       const response = await checkout(discountCode);
       console.log(response);
-    } catch (error) {
+      toast.success(response?.data?.message);
+      setDiscountCode("");
+      getCartItems();
+    } catch (error: any) {
       console.log(error);
-      toast.error("Error in checking out");
+      toast.error(error?.response?.data?.message);
     }
   };
 
