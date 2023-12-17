@@ -3,7 +3,6 @@ export function calculateTotalAmount(cartItems) {
   cartItems.forEach((item) => {
     total += item.price;
   });
-  console.log('Ttatoat', total, cartItems);
   return total;
 }
 
